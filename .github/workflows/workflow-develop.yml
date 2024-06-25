@@ -31,7 +31,7 @@ jobs:
 
       - name: Run build script
         run: |
-          ../.github/scripts/build.sh
+          ./.github/scripts/build.sh
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
