@@ -1,12 +1,7 @@
-name: CI Pipeline for Java BE Applications
+name: CI Pipeline BE-orders-service
 
 on:
   push:
-    paths:
-      - 'orders-service-example/**'
-      - 'payments-service-example/**'
-      - 'products-service-example/**'
-      - 'shipping-service-example/**'
     branches:
       - develop
 
@@ -14,11 +9,7 @@ jobs:
   build-orders-service-example:
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        module: ['orders-service-example','payments-service-example','products-service-example','shipping-service-example']
-
-    name: Build 
+    name: Build BE orders-service
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -30,10 +21,9 @@ jobs:
           java-version: '11'
 
       - name: Grant execute permission for Maven Wrapper
-        run: chmod +x ./${{ matrix.module }}/mvnw
+        run: chmod +x ./mvnw
 
       - name: Install dependencies
-        working-directory: ./${{ matrix.module }}
         run: ./mvnw dependency:resolve
         
       - name: Grant execute permission for build script
@@ -41,11 +31,10 @@ jobs:
 
       - name: Run build script
         run: |
-          cd ${{ matrix.module }}
           ../.github/scripts/build.sh
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.module }}-example
-          path: ./${{ matrix.module }}/out
+          name: build-orders-service
+          path: ./out
