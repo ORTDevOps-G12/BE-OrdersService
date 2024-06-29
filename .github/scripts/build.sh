@@ -15,7 +15,7 @@ rm -rf ./out
 chmod +x ./mvnw
 
 # Compile the project using Maven
-./mvnw clean install
+./mvnw clean package
 
 # Create an output directory
 mkdir -p out
