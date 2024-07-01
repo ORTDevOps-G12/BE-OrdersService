@@ -50,16 +50,35 @@ jobs:
           name: orders-service-example-jar
           path: ./
 
+      # - name: Build Docker image
+        # run: |
+          # docker build --build-arg JAR_FILE=orders-service-example-0.0.1-SNAPSHOT.jar -t orders-service-example:latest .
+
+      # - name: Save Docker image as artifact
+        # run: |
+          # docker save orders-service-example:latest | gzip > orders-service-example-latest.tar.gz
+
+      # - name: Upload Docker image as artifact
+        # uses: actions/upload-artifact@v2
+        # with:
+          # name: orders-service-example-docker-image
+          # path: orders-service-example-latest.tar.gz
       - name: Build Docker image
         run: |
           docker build --build-arg JAR_FILE=orders-service-example-0.0.1-SNAPSHOT.jar -t orders-service-example:latest .
 
-      - name: Save Docker image as artifact
-        run: |
-          docker save orders-service-example:latest | gzip > orders-service-example-latest.tar.gz
-
-      - name: Upload Docker image as artifact
-        uses: actions/upload-artifact@v2
+      - name: Login en Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
         with:
-          name: orders-service-example-docker-image
-          path: orders-service-example-latest.tar.gz
+          registry: ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Tag Docker image for ECR
+        run: |
+          docker tag orders-service-example:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/orders-service-example:latest
+
+      - name: Push Docker image to ECR
+        run: |
+          docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/orders-service-example:latest    
