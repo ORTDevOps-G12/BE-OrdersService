@@ -19,6 +19,7 @@
 		<!-- SonarCloud properties -->
 		<sonar.organization>ortdevops-g12</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<version>3.0.2</version>
 	</properties>
 	<dependencies>
 		<dependency>
