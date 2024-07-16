@@ -120,7 +120,7 @@ jobs:
       - name: Run test
         id: run-newman
         run: |
-          newman run ObligatorioDevOps-G12.json
+          newman run ./ObligatorioDevOps-G12.json
 
       - name: Output summary to console
         run: echo ${{ steps.run-newman.outputs.summary }}
