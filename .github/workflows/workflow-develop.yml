@@ -115,12 +115,15 @@ jobs:
       - name: Install Newman
         run: |
           npm install -g newman
-          npm install -g newman-reporter-html
+
+      - name: "Install newman reporter"
+        run: |
+          npm install -g newman-reporter-htmlextra
 
       - name: Run test
         id: run-newman
         run: |
-          newman run "ObligatorioDevOps-G12.json" --reporters html
+          newman run "ObligatorioDevOps-G12.json" -r htmlextra
 
       - name: Output summary to console
         run: echo ${{ steps.run-newman.outputs.summary }}
