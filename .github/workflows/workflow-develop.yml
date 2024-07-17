@@ -123,4 +123,4 @@ jobs:
       - name: Run test
         id: run-newman
         run: |
-          newman run "ObligatorioDevOps-G12.json" -r htmlextra --report-htmlextra-export results/report.html
+          newman run "ObligatorioDevOps-G12.json" -r htmlextra --reporter-htmlextra-export results/report.html
